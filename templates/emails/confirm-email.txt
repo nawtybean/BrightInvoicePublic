@@ -1,0 +1,44 @@
+<body style="background-color: #d3d3d3;">
+    <style>
+        @import url('https://fonts.googleapis.com/css/css?family=Roboto');
+    </style>
+    <br><br>
+    <center>
+        <div style="background-color: #fff; width: 70%; height: 1000px; border-radius: 5px; margin-top: 50px; font-family: roboto;">
+            <br><br>
+            <img src="https://signup.brightinvoice.co.za/static/assets/img/emaillogo.png">
+            <br><br>
+            <p style="font-size: 22px;">Hello and Welcome! <a style="color: #80be83;"></a></p>
+            <p style="font-size: 15px;">We have received a sign-up request via this email address <a style="color: #80be83; text-decoration: none;">{{user.email}}</a></p>
+            <p style="font-size: 15px;">You signed up for <span style="color: #80be83;">BrightInvoice</span></p>
+
+            <hr style="color:#80be83; width: 80%;">
+            <p style="font-size: 25px;">We are glad you are interested in BrightInvoice</p>
+            <p style="font-size: 25px;">Your Custom Domain is: <b>{{domain}}</b>. Navigate to this domain on every sign in</p>
+            <br>
+            <p style="font-size: 16px;">Click the button below to activate your e-mail</p>
+            <br><br>
+
+            <a href="https://{{domain}}{% url 'activate_user' uidb64=uid token=token %}">
+                <button 
+                    style="color:#fff;
+                           background-color: #80be83;
+                           width: 180px; 
+                           height: 40px; 
+                           border: none; 
+                           border-radius: 4px; 
+                           font-size: 22px; 
+                           cursor: pointer;">Verify E-Mail
+                </button>
+            </a>
+
+            <br><br>
+            <p style="font-size: 30px; color:#80be83">Thanks !</p>
+            <br><br>
+            <div style="margin-top: 40px;">
+                <p style="font-size:13px">You received this e-email because you signed up at <a href="https://www.brightinvoice.co.za">brightinvoice.co.za</a></p>
+            </div>
+        </div>
+    </center>
+    <br><br><br><br><br><br>
+</body>

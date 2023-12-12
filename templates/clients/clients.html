@@ -1,0 +1,237 @@
+<!-- @author: Shaun De Ponte, nawtybean3d@gmail.com
+
+----- The MIT License (MIT) ----- 
+Copyright (c) 2023, Shaun De Ponte
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<style>
+    .pac-container {
+        z-index: 10000 !important;
+    }
+</style>
+{% endblock %}
+
+{% block title %}
+    Products
+{% endblock title %}
+
+{% block navbar %}
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clientModal">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+     Add New Client
+</button>
+{% endblock %}
+
+
+{% block body %}
+<div class="container_fluid" style="display:none" id="progress-bar">
+    <div class="loader12"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Header -->
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="clientModalLabel">Add New Client</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <!-- body -->
+        <form method="POST" id="post-data">
+            {% csrf_token %}
+            <input type="hidden" name="client-id" id="client-id" value="0" />
+            <div class="modal-body">
+                <label style="color:gray!important" for="Title">Customer Name</label>
+                    <div class="input-group input-group-outline mb-3">
+                          <input type="text" id="inputcustomername" name="customername" class="form-control" required>
+                    </div>
+        
+                <label style="color:gray!important" for="Title">Auto Complete Address</label>
+                    <div class="input-group input-group-outline mb-3">
+                        <input id="inputadress" name="adress" class="form-control"   required>
+                    </div>
+
+                <label style="color:gray!important" for="Title">Phone Number</label>
+                    <div class="input-group input-group-outline mb-3">
+                          <input type="number" id="inputphonenumber" name="phonenumber" class="form-control" min="1" required>
+                    </div>
+                <label style="color:gray!important" for="Title">E-Mail</label>
+                    <div class="input-group input-group-outline mb-3">
+                          <input type="email" id="inputemail" name="email" class="form-control" required>
+                    </div>
+                <label style="color:gray!important" for="Title">Client Tax Number</label>
+                    <div class="input-group input-group-outline mb-3">
+                          <input type="number" id="inputtaxnumber" name="taxnumber" class="form-control" min="0">
+                    </div>
+            </div>
+            
+            <!-- footer -->
+            <div class="modal-footer">
+                <button id="btn"  type="submit" class="btn btn-success"><span id="turn" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>Save</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="card z-index-2 ">
+    <div class="card-body">
+        <div class="container-fluid py-4">
+            <table id="data-table-clients" class="table table-hover responsive" width="100%">
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block javascript %}
+<script>
+    let messages = new PopUpMessages();
+    var user_type = {{ user.user_type|safe }};
+    var show_hide_next = 0;
+    var csrftoken = getCookie('csrftoken');
+    window.onload = function () {
+        // $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+        getData();
+    };
+
+    let autocomplete;
+    function initAutocomplete(){
+
+        inputAddressField = document.getElementById('inputadress')
+        autocomplete = new google.maps.places.Autocomplete(inputAddressField);
+        inputAddressField.focus();
+
+    }
+
+    function resetModel() {
+        document.getElementById("clientModalLabel").innerHTML = "Add New Client";
+            document.getElementById("client-id").value = "0";
+            document.getElementById("inputcustomername").value = "";
+            document.getElementById("inputadress").value = "";
+            document.getElementById("inputphonenumber").value = "";
+            document.getElementById("inputtaxnumber").value = "";
+            document.getElementById("inputemail").value = "";
+        }
+
+        $("#clientModal").on("hidden.bs.modal", function() {
+            resetModel();
+        });
+
+        function getData() {
+            document.getElementById("progress-bar").style.display = "block";
+            $.ajax({
+                type: 'GET',
+                url: 'clients-crud',
+                success: function (data) {
+                    console.log(data)
+                    document.getElementById("progress-bar").style.display = "none";
+                    drawTable(data, 'clients');
+                    drawSelect(data.provinces, 'addProvinceSelect');
+                    $('#provinceSelect').select2({dropdownParent: $('#clientModal')});
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    messages.Error(xhr.statusText);
+                },
+            });
+        };
+
+
+        $('#post-data').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(document.getElementById("post-data"));
+            document.getElementById("btn").disabled = true;
+            document.getElementById("turn").style.display = "inline-block";
+            $.ajax({
+                type: 'POST',
+                headers: {'X-CSRFToken': csrftoken},
+                url: 'clients-crud/',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    messages.savedSuccessfully("Successfully Saved!");
+                    document.getElementById("btn").disabled = false;
+                    document.getElementById("turn").style.display = "none";
+                    $("#clientModal").modal("hide");
+                    getData();
+                },
+                error: function (xhr) {
+                    messages.Error(xhr.statusText);
+                    document.getElementById("btn").disabled = false;
+                    document.getElementById("turn").style.display = "none";
+                },
+            });
+        });
+
+
+        function edit_item(id, type) {
+            $.ajax({
+                type: 'GET',
+                url: id + '/edit-clients?pk=' + id,
+                success: function (data) {
+                    document.getElementById("clientModalLabel").innerHTML = "Edit Client";
+                    document.getElementById("client-id").value = data.id;
+                    document.getElementById("inputcustomername").value = data.customer_name;
+                    document.getElementById("inputadress").value = data.address_line;
+                    document.getElementById("inputphonenumber").value = data.phoneNumber;
+                    document.getElementById("inputtaxnumber").value = data.tax_number;
+                    document.getElementById("inputemail").value = data.email_address;
+                    $("#clientModal").modal("show");
+                },
+                error: function (xhr) {
+                    messages.Error(xhr.statusText);
+                },
+            });
+        }
+
+
+        function delete_item(id, type) {
+            var r = confirm('Are you sure you want to delete this item?');
+
+            if (r == true){
+                data = {
+                        'id': id,
+                    }
+            $.ajax({
+                type: 'POST',
+                headers: {'X-CSRFToken': csrftoken, 
+                          'X-METHODOVERRIDE': 'DELETE'},
+                url: 'clients-crud/',
+                data: data,
+                success: function (data) {
+                    messages.deletedSuccessfully()
+                    getData();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    messages.Error(xhr.statusText);
+                },
+            });
+        }
+        }
+</script>
+{% endblock %}

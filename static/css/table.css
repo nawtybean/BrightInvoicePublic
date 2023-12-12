@@ -1,0 +1,178 @@
+.table {
+    border-spacing: 0 0.5rem !important;
+}
+
+.table .dropdown {
+    display: inline-block;
+}
+
+.table td {
+    vertical-align: middle;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.table th {
+    vertical-align: middle;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.table thead tr {
+    border: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+}
+
+.table thead th {
+    border: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    border-bottom: 0px !important;
+}
+
+.table td {
+    background: #fff;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
+    top: 28px;
+    left: 14px;
+    border: none;
+    box-shadow: none;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child {
+    padding-left: 48px;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child {
+    padding-left: 48px;
+}
+
+table.dataTable>tbody>tr.child ul.dtr-details {
+    width: 100%;
+}
+
+table.dataTable>tbody>tr.child span.dtr-title {
+    min-width: 50%;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.child,
+table.dataTable.dtr-inline.collapsed>tbody>tr>th.child,
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dataTables_empty {
+    padding: 0.75rem 1rem 0.125rem;
+}
+
+div.dataTables_wrapper div.dataTables_length label,
+div.dataTables_wrapper div.dataTables_filter label {
+    margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+    div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+        -ms-flex-pack: center !important;
+        justify-content: center !important;
+        margin-top: 1rem;
+    }
+}
+
+.table {
+    color: #436078!important;
+    font-size: 14px;
+}
+
+.table a, 
+.table a:hover {
+    color: #436078!important;
+}
+
+.table a:hover,
+.table a:focus {
+    text-decoration: none;
+}
+
+table.dataTable {
+    margin-top: 12px !important;
+}
+
+.icon>.bx {
+    display: block;
+    min-width: 1.5em;
+    min-height: 1.5em;
+    text-align: center;
+    font-size: 1.0625rem;
+}
+
+.sorting {
+    color: white;
+}
+table.dataTable > thead .sorting:before, table.dataTable > thead .sorting:after, table.dataTable > thead .sorting_asc:before, table.dataTable > thead .sorting_asc:after, table.dataTable > thead .sorting_desc:before, table.dataTable > thead .sorting_desc:after, table.dataTable > thead .sorting_asc_disabled:before, table.dataTable > thead .sorting_asc_disabled:after, table.dataTable > thead .sorting_desc_disabled:before, table.dataTable > thead .sorting_desc_disabled:after {
+    bottom: 14px!important;
+}
+.dataTables_wrapper {
+    width: 100%;
+}
+
+.dataTables_scrollBody .table {
+    margin-top: -15px !important;
+}
+
+.dataTables_scrollBody .table td {
+    padding: 0px 0px 0px 10px;
+    vertical-align: middle;
+}
+
+.dataTables_scroll .btn {
+    border-radius: 0px;
+    margin-right: 0px;
+    padding: 20px;
+    margin-top: -1px;
+}
+
+.dataTables_scroll .btn.btn-success,
+.dataTables_scroll .btn.btn-danger {
+    color: #00BBE3;
+    background-color: transparent;
+    border: 0px;
+    padding:20px 17px 20px 8px;
+}
+
+.dataTables_scroll .btn.btn-success:hover,
+.dataTables_scroll .btn.btn-danger:hover {
+    color: #2A4391;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    color: white;
+}
+
+.page-item .page-link {
+    background-color: transparent!important;
+    border: 0px!important;
+    color: white!important;
+}
+.page-item.active .page-link {
+    background-color: transparent!important;
+    border: 0px;
+    color: white!important;
+    font-weight: 600;
+    font-size: 15px;
+}
+.page-item.disabled .page-link {
+    color: #b4bfc9!important;
+    background-color: transparent!important;
+}
+
+.page-item .page-link:hover {
+    background-color: #2A4391!important;
+    color: white!important;
+}
+.page-item.active .page-link:hover {
+    background-color: transparent!important;
+}

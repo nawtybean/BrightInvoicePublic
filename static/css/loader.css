@@ -1,0 +1,49 @@
+html {
+  box-sizing: border-box; }
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit; }
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+.item {
+  width: 280px;
+  height: 280px;
+  margin: 20px;
+  background: #f6f9ff;
+  border-radius: 3px;
+  position: relative; }
+
+.number {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: #c3d8ff;
+  font-size: 30px; }
+ 
+.loader12 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+  animation: loader12-u6338d783 1s linear alternate infinite;
+  top: 50%;
+  margin: -50px auto 0; }
+
+@keyframes loader12-u6338d783 {
+  0% {
+    box-shadow: -60px 40px 0 2px #5ab25e, -30px 40px 0 0 rgba(90, 178, 94, 0.2), 0 40px 0 0 rgba(90, 178, 94, 0.2), 30px 40px 0 0 rgba(90, 178, 94, 0.2), 60px 40px 0 0 rgba(90, 178, 94, 0.2); }
+  25% {
+    box-shadow: -60px 40px 0 0 rgba(90, 178, 94, 0.2), -30px 40px 0 2px #5ab25e, 0 40px 0 0 rgba(90, 178, 94, 0.2), 30px 40px 0 0 rgba(90, 178, 94, 0.2), 60px 40px 0 0 rgba(90, 178, 94, 0.2); }
+  50% {
+    box-shadow: -60px 40px 0 0 rgba(90, 178, 94, 0.2), -30px 40px 0 0 rgba(90, 178, 94, 0.2), 0 40px 0 2px #5ab25e, 30px 40px 0 0 rgba(90, 178, 94, 0.2), 60px 40px 0 0 rgba(90, 178, 94, 0.2); }
+  75% {
+    box-shadow: -60px 40px 0 0 rgba(90, 178, 94, 0.2), -30px 40px 0 0 rgba(90, 178, 94, 0.2), 0 40px 0 0 rgba(90, 178, 94, 0.2), 30px 40px 0 2px #5ab25e, 60px 40px 0 0 rgba(90, 178, 94, 0.2); }
+  100% {
+    box-shadow: -60px 40px 0 0 rgba(90, 178, 94, 0.2), -30px 40px 0 0 rgba(90, 178, 94, 0.2), 0 40px 0 0 rgba(90, 178, 94, 0.2), 30px 40px 0 0 rgba(90, 178, 94, 0.2), 60px 40px 0 2px #5ab25e; } }
+

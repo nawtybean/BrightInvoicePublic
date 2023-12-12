@@ -1,0 +1,83 @@
+<!-- @author: Shaun De Ponte, nawtybean3d@gmail.com
+
+----- The MIT License (MIT) ----- 
+Copyright (c) 2023, Shaun De Ponte
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. -->
+
+<!-- Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Header -->
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userModalLabel">Edit User</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <!-- body -->
+        <form method="POST" id="post-user-data">
+          {% csrf_token %}
+            {% for ud in user_details %}
+                <input type="hidden" name="user-id" id="user-id" value="0" />
+                <div class="modal-body">
+                    <label style="color:gray!important" for="Title">First Name</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="text" id="inputfirstname" name="firstname" class="form-control" value="{{ud.first_name}}" required>
+                        </div>
+            
+                    <label style="color:gray!important" for="Title">Last Name</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="text" id="inputlastname" name="lastname" class="form-control" value="{{ud.last_name}}" required>
+                        </div>
+
+                    <label style="color:gray!important" for="Title">Phone Number</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="number" id="inputphonenumber" name="phonenumber" class="form-control" min="1" value="{{ud.phone}}" required>
+                        </div>
+
+                    <label style="color:gray!important" for="Title">E-Mail</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="email" id="inputemail" name="email" class="form-control" value="{{ud.email}}" required>
+                        </div>
+                        
+                    <label for="inputValidationEx2" data-error="wrong" data-success="right" style="width:200px;">Change your password</label>
+                        <div class="input-group input-group-outline mb-3">
+                          <input type="password" id="inputValidationEx2"  name="password" class="form-control validate">
+                        </div>
+                        <div class="alert alert-warning password-alert" role="alert">
+                          <ul>
+                            <li class="requirements leng"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 8 chars.</li>
+                            <li class="requirements big-letter"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 1 big letter.</li>
+                            <li class="requirements num"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 1 number.</li>
+                            <li class="requirements special-char"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 1 special char.</li>
+                          </ul>
+                        </div>
+                </div>
+                
+                <!-- footer -->
+                <div class="modal-footer">
+                    <button id="btn" type="submit" class="btn btn-success"><span id="turn" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>Save</button>
+                </div>
+            {% endfor %}
+        </form>
+      </div>
+    </div>
+  </div>

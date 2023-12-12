@@ -1,0 +1,44 @@
+<body style="background-color: #d3d3d3;">
+    <style>
+        @import url('https://fonts.googleapis.com/css/css?family=Roboto');
+    </style>
+    <br><br>
+    <center>
+        <div style="background-color: #fff; width: 70%; height: 1000px; border-radius: 5px; margin-top: 50px; font-family: roboto;">
+            <br><br>
+            <img src="https://signup.brightinvoice.co.za/static/assets/img/emaillogo.png">
+            <br><br>
+            <p style="font-size: 22px;">Hello {{email_select}},  <a style="color: #80be83;"></a></p>
+            <p style="font-size: 15px;">Please see message from your service provider: <a style="color: #80be83; text-decoration: none;">{{user.email}}</a></p>
+            <p style="font-size: 15px;">{{email_message}}</p>
+
+            <hr style="color:#80be83; width: 80%;">
+            <br>
+            <p style="font-size: 30px; color:#80be83">Invoice Amount: R{{invoice_amount}}</p>
+            <br>
+            <p style="font-size: 16px;">Click the button below to view your invoice.</p>
+            <br><br>
+
+            <a href="{{email_url}}">
+                <button 
+                    style="color:#fff;
+                           background-color: #80be83;
+                           width: 180px; 
+                           height: 40px; 
+                           border: none; 
+                           border-radius: 4px; 
+                           font-size: 22px; 
+                           cursor: pointer;">View Invoice
+                </button>
+            </a>
+
+            <br><br>
+            <p style="font-size: 30px; color:#80be83">Thank you for your business !</p>
+            <br><br>
+            <div style="margin-top: 40px;">
+                <p style="font-size:13px">Do you need a simple invoicing system? Powered by <a href="https://www.brightinvoice.co.za">brightinvoice.co.za</a></p>
+            </div>
+        </div>
+    </center>
+    <br><br><br><br><br><br>
+</body>

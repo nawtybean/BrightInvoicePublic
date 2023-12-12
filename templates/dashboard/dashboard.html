@@ -1,0 +1,243 @@
+<!-- @author: Shaun De Ponte, nawtybean3d@gmail.com
+
+----- The MIT License (MIT) ----- 
+Copyright (c) 2023, Shaun De Ponte
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<!-- Load with base style -->
+<link rel="stylesheet" href="{% static 'js/billboard/billboard.min.css' %}"
+
+{% endblock style %}
+
+{% block title %}
+    Dashboard
+{% endblock title %}
+
+{% block body %}
+<div class="container_fluid" style="display:none" id="progress-bar">
+  <div class="loader12"></div>
+</div>
+
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-header p-3 pt-2">
+            <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+              <i class="material-icons opacity-10">weekend</i>
+            </div>
+            <div class="text-end pt-1">
+              <p class="text-sm mb-0 text-capitalize">Total Invoice Amount</p>
+              <h4 class="mb-0" id="total_invoice"></h4>
+            </div>
+          </div>
+          <hr class="dark horizontal my-0">
+          <div class="card-footer p-3">
+            <!-- <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than last week</p> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-header p-3 pt-2">
+            <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+              <i class="material-icons opacity-10">person</i>
+            </div>
+            <div class="text-end pt-1">
+              <p class="text-sm mb-0 text-capitalize">This month invoice amount</p>
+              <h4 class="mb-0" id="this_month_invoice"></h4>
+            </div>
+          </div>
+          <hr class="dark horizontal my-0">
+          <div class="card-footer p-3">
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-header p-3 pt-2">
+            <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+              <i class="material-icons opacity-10">person</i>
+            </div>
+            <div class="text-end pt-1">
+              <p class="text-sm mb-0 text-capitalize">Number of Over Due Invoices</p>
+              <h4 class="mb-0" id="days_overdue"></h4>
+            </div>
+          </div>
+          <hr class="dark horizontal my-0">
+          <div class="card-footer p-3">
+            <!-- <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6">
+        <div class="card">
+          <div class="card-header p-3 pt-2">
+            <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+              <i class="material-icons opacity-10">weekend</i>
+            </div>
+            <div class="text-end pt-1">
+              <p class="text-sm mb-0 text-capitalize">Total Payments Received</p>
+              <h4 class="mb-0" id="total_payments"></h4>
+            </div>
+          </div>
+          <hr class="dark horizontal my-0">
+          <div class="card-footer p-3">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-lg-6 col-md-6 mt-4 mb-2">
+        <div class="card z-index-2 ">
+          <div class="card-body">
+
+            <h6 class="mb-0 ">Sum of Line Total by Customer</h6>
+
+            <div id="chart1"></div>
+          
+          </div>
+        </div>
+      </div>
+       
+      <div class="col-lg-6 col-md-6 mt-4 mb-2">
+        <div class="card z-index-2 ">
+          <div class="card-body">
+            
+            <h6 class="mb-0 ">Sum of Line Total by Month</h6>
+            <div id="chart2"></div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="row mt-2">
+      <div class="col-lg-6 col-md-6 mt-2 mb-4">
+        <div class="card z-index-2 ">
+          <div class="card-body">
+
+            <h6 class="mb-0 ">Sum of Quantity by Product</h6>
+            <div id="chart3"></div>
+          
+          </div>
+        </div>
+      </div>
+       
+      <div class="col-lg-6 col-md-6  mt-2 mb-4">
+        <div class="card z-index-2 ">
+          <div class="card-body">
+            
+            <h6 class="mb-0 ">Sum of Line Total by Product</h6>
+            <div id="chart4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <footer class="footer py-4  ">
+      <div class="container-fluid">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6 mb-lg-0 mb-4">
+            <div class="copyright text-center text-sm text-muted text-lg-start">
+              © <script>
+                document.write(new Date().getFullYear())
+              </script>, brightinvoice.co.za
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+{% endblock body %}
+
+{% block javascript %}
+
+<!-- Step 2) Load billboard.js with style -->
+<script src="{% static 'js/billboard/billboard.pkgd.min.js' %}"></script>
+
+<script>
+
+    let messages = new PopUpMessages();
+    var user_type = {{ user.user_type|safe }};
+    var show_hide_next = 0;
+    var csrftoken = getCookie('csrftoken');
+    window.onload = function () {
+        getData();
+    };
+
+    function drawChart(data, type, bind_to){
+          var chart = bb.generate({
+          data: {
+            
+            json: data['data'],
+            keys: {
+              x: data['x'],
+              value: data['keys']
+            },
+            type: type,
+          },
+          axis: {
+            x: {
+              type: "category"
+            }
+          },
+          bindto: bind_to
+        });
+      }
+
+    function getData() {
+          document.getElementById("progress-bar").style.display = "block";
+          $.ajax({
+              type: 'GET',
+              url: 'dashboard-crud',
+              success: function (data) {
+                  console.log(data)
+                  document.getElementById("progress-bar").style.display = "none";
+                  drawChart(data.graph_one_dict, "bar", "#chart1")
+                  drawChart(data.graph_two_dict, "line", "#chart2")
+                  drawChart(data.graph_three_dict, "bar", "#chart3")
+                  drawChart(data.graph_four_dict, "bar", "#chart4")
+
+                  document.getElementById("total_invoice").innerHTML = 'R' + data.cards.sum_total_invoices.toLocaleString("en-US");
+                  document.getElementById("days_overdue").innerHTML = data.cards.count_over_due_invoices;
+                  document.getElementById("this_month_invoice").innerHTML = 'R' + data.cards.invoice_this_month.toLocaleString("en-US");
+                  document.getElementById("total_payments").innerHTML = 'R' + data.cards.sum_paid_invoices.toLocaleString("en-US");
+              },
+              error: function (xhr, ajaxOptions, thrownError) {
+                  messages.Error(xhr.statusText);
+              },
+          });
+      };
+
+</script>
+
+
+{% endblock javascript %}

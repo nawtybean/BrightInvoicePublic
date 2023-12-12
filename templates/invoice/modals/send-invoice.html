@@ -1,0 +1,75 @@
+<!-- @author: Shaun De Ponte, nawtybean3d@gmail.com
+
+----- The MIT License (MIT) ----- 
+Copyright (c) 2023, Shaun De Ponte
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. -->
+
+{% load static %}
+  <!-- Modal -->
+<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Header -->
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="invoiceModalLabel">E-Mail Invoice to Client</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <!-- body -->
+        <form method="POST" id="post-data">
+          {% csrf_token %}
+            <input type="hidden" name="invoice-amount" id="invoice-amount" value="0" />
+            <div class="modal-body">
+                <div class="row">
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <img src="{% static 'assets/img/emaillogo.svg' %}" alt="Logo" width="300px">
+                    </div>
+                    <div class="col-md-6">
+                      <label style="color:gray!important" for="Title">Select Client Email Address Below</label>
+                      <select class="form-select" aria-label="Email" name="emailSelect">
+                        {% for inv in invoice %}
+                          <option value="{{inv.client__email_address}}">{{inv.client__email_address}}</option>
+                        {% endfor  %}
+                      </select>
+
+                      <div class="form-check form-check-info text-start ps-0">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="send_copy" checked>
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Send a copy to myself?
+                        </label>
+                      </div>
+                      <label style="color:gray!important" for="Title">Message</label>
+                      <div class="input-group input-group-outline mb-3">
+                        <textarea id="inputEmailMessage" name="emailmessage" class="form-control" rows="3" >Hi, Please see a link to the invoice.</textarea>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- footer -->
+            <div class="modal-footer">
+                <button id="btn" type="submit" class="btn btn-success"><span id="turn" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>Send Invoice</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>

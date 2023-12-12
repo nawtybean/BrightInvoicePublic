@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Candidate CV | User Settings
+{% endblock title %}
+
+{% block style %}
+    <link href="{% static 'css/floating-labels.css' %}" rel="stylesheet">
+    <link href="{% static 'css/administration.css' %}" rel="stylesheet">
+{% endblock style %}
+
+{% block body %}
+    <div class="well text-muted text-center">
+        <h2>User Settings</h2>
+    </div>
+    <hr>
+    {% if user.is_authenticated %}
+        <div class="clearfix">
+            <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="">
+
+                </div>
+                <div class="btn-group mr-2" role="group" aria-label="">
+                    <button type="button" id="resetModalbutton" class="btn btn-primary" data-toggle="modal"
+                            data-target="#modaluser">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Edit Details
+                    </button>
+                </div>
+                <div class="btn-group mr-2" role="group" aria-label="">
+                    <a class="btn btn-primary" href="{% url 'password_change' %}">
+                        <i class="far fa-key" aria-hidden="true"></i>Change Password</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modaluser">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modaltitle">Edit User Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <form id="send_user_data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-label-group mr-3">
+                                <input type="email" id="addEmail" class="form-control" placeholder="User Email Address"
+                                       required>
+                                <label for="addEmail">User Email Address</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="form-label-group mr-3">
+                                <input type="text" id="addMobileNumber" class="form-control" placeholder="Mobile Number"
+                                       required>
+                                <label for="addMobileNumber">User Mobile Number</label>
+                            </div>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" id="btnSubmit" value="Save"></input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <h3 class="text-muted" id="firstNameLastName"></h3>
+                    <p  id="userEmail"></p>
+                    <p  id="userPhone"></p>
+                </div>
+                <div class="col-md-9">
+                    <h3 class="text-muted">Branch</h3>
+                    <p>{{ user.branch_name }}</p>
+                    <hr>
+                    <h3 class="text-muted">User Role</h3>
+                    {% if user.user_type == 4 %}
+                        <p>Administrator</p>
+                    {% elif user.user_type == 3 %}
+                        <p>Director</p>
+                    {% elif user.user_type == 2 %}
+                        <p>Manager</p>
+                    {% else %}
+                        <p>General User</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+{% endblock body %}
+
+{% block javascript %}
+    <script>
+        let messages = new PopUpMessages();
+        var user_id = {{ user.pk|safe }};
+        var csrftoken = getCookie('csrftoken');
+        let crud_name = 'user';
+
+        window.onload = function() {
+            getData();
+        }
+
+        function getData() {
+            $.ajax({
+                type: 'GET',
+                url:'ajax_get_user_settings_data',
+                success: function(data) {
+                    document.getElementById("firstNameLastName").innerHTML = data.data[0].first_name + " " + data.data[0].last_name;
+                    document.getElementById("userEmail").innerHTML = data.data[0].email;
+                    document.getElementById("userPhone").innerHTML = data.data[0].phone;
+                    document.getElementById("addEmail").value = data.data[0].email;
+                    document.getElementById("addMobileNumber").value = data.data[0].phone;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    messages.xhrError(xhr);
+                    messages.throwError(thrownError);
+                },
+            });
+        }
+
+        $('#send_user_data').submit(function (e) {
+            e.preventDefault();
+            let email = document.getElementById("addEmail").value;
+            let mobile = document.getElementById("addMobileNumber").value;
+            let pk = user_id;
+            data = {
+                    'email' : email,
+                    'mobile': mobile,
+                    'pk': pk
+                    }
+            $.ajax({
+                type: 'POST',
+                headers: {'X-CSRFToken': '{{csrf_token}}'},
+                url:"{% url 'ajax_send_user_settings_data' %}",
+                data: data,
+                success: function(data) {
+                        messages.savedSuccessfully()
+                        getData();
+                        $('#modaluser').modal('hide');
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                        messages.xhrError(xhr)
+                        messages.throwError(thrownError)
+                }
+            });
+        });
+    </script>
+{% endblock javascript %}

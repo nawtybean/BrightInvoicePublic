@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+
+label
+{
+    width: 100%;
+}
+
+.alert
+{
+    display: block;
+}
+
+.requirements
+{
+    list-style-type: none;
+}
+
+.wrong .fa-check
+{
+    display: none;
+}
+
+.good .fa-times
+{
+    display: none;
+}
+</style>
+{% endblock %}
+ 
+{% block body %}
+  <main class="main-content  mt-0">
+    <section>
+      <div class="page-header min-vh-100">
+        <div class="container">
+          <div class="row">
+            <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
+              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('{% static 'img/illustrations/illustration-signup.jpg' %}'); background-size: cover;">
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
+              <div class="card card-plain">
+                <div class="card-header">
+                  <h4 class="font-weight-bolder text-center mt-2 mb-0" style="color:black;"><img src="{% static 'img/logo-ct-dark.png' %}" class="navbar-brand-img h-100" alt="main_logo"></h4>
+                  <h4 class="font-weight-bolder text-center mt-2 mb-0" style="color:black;">BrightInvoice Sign Up</h4>
+                </div>
+                <div class="card-body">
+                  <p class="mb-0">Enter your details below to register:</p>
+                  <br>
+                    <form class='form-signin' method="post" id="post-data">
+                      {% csrf_token %}
+                        <!-- Company Name -->
+                        <label style="color:gray!important" for="Title">Enter Your Company Name</label>
+                        <div class="input-group input-group-outline mb-3">
+                          <input type="text" id="inputCompanyName" name="companyname" class="form-control" placeholder="Your Awesome Company" required>
+                        </div>
+
+                        <!-- Your Brand -->
+                        <label for="inputValidationEx1" class="form-label">Subdomain (Special Characters will be removed)</label>
+                        <div class="input-group input-group-outline mb-3">
+                          <input type="text"  id="inputValidationEx1" name="subdomain"  class="form-control" placeholder="yourbrand" required>
+                          <span class="input-group-text">.brightinvoice.co.za</span>
+                        </div>
+ 
+                        <!-- Email  -->
+                        <label class="form-label">Email</label>
+                        <div class="input-group input-group-outline mb-3">
+                          <input type="email" id="inputEmail" name="email"class="form-control" placeholder="name@example.com" required>
+                        </div>
+
+                        <!-- Password -->
+                        <label for="inputValidationEx2" data-error="wrong" data-success="right" style="width:200px;">Type your password</label>
+                        <div class="input-group input-group-outline mb-3">
+                          <input type="password" id="inputValidationEx2"  name="password" class="form-control validate" required>
+                        </div>
+                        <div class="alert alert-warning password-alert" role="alert">
+                          <ul>
+                            <li class="requirements leng"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 8 chars.</li>
+                            <li class="requirements big-letter"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 1 big letter.</li>
+                            <li class="requirements num"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 1 number.</li>
+                            <li class="requirements special-char"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 1 special char.</li>
+                          </ul>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="form-check form-check-info text-start ps-0">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="terms" checked required>
+                          <label class="form-check-label" for="flexCheckDefault">
+                            I agree to the <a href="https://www.brightinvoice.co.za/terms-and-conditions" class="text-dark font-weight-bolder">Terms and Conditions</a>
+                          </label>
+                        </div>
+
+                        <!-- reCAPTCHA -->
+                        <div class="g-recaptcha" data-sitekey="6LdwgUIkAAAAAKuIJ42OBjGqYX3gLB6AVr_-Rhqn" data-callback="verifyCaptcha"></div>
+                        <div id="g-recaptcha-error"></div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                        <button type="submit" id="btn" class="btn btn-lg bg-gradient-success btn-lg w-100 mt-4 mb-0"><span id="turn" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>Sign Up</button>
+                        </div>
+
+                  </form>
+                </div>
+                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                  <p class="mb-2 text-sm mx-auto">
+                    Already have an account?
+                    <a href="{% url 'login_view' %}" class="text-success text-gradient font-weight-bold">Sign in</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block javascript %}
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+  var csrftoken = getCookie('csrftoken');
+  let messages = new PopUpMessages();
+
+  if (window.history.replaceState){
+    window.history.replaceState(null, null, window.location.href)
+  }
+
+  function verifyCaptcha(){
+    document.getElementById('g-recaptcha-error').innerHTML = ''
+  }
+
+  $('#post-data').submit(function (e) {
+            e.preventDefault();
+            var response = grecaptcha.getResponse();
+            if(response.length == 0){
+              document.getElementById('g-recaptcha-error').innerHTML = '<span style="color:red;"> This field is required. </span>'
+            }else{
+              var formData = new FormData(document.getElementById("post-data"));
+              document.getElementById("btn").disabled = true;
+              document.getElementById("turn").style.display = "inline-block";
+              $.ajax({
+                  type: 'POST',
+                  headers: {'X-CSRFToken': '{{csrf_token}}'},
+                  url: 'signup',
+                  data: formData,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  success: function (data) {
+                    messages.savedSuccessfully("Success! We have sent you an e-mail to verify your account");
+                      document.getElementById("btn").disabled = false;
+                      document.getElementById("turn").style.display = "none";
+                    },
+                    error: function (xhr) {
+                      messages.Error(xhr.responseJSON.e);
+                      document.getElementById("btn").disabled = false;
+                      document.getElementById("turn").style.display = "none";
+                  },
+                });
+              }  
+          });    
+</script>
+
+{% endblock %}

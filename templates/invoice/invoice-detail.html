@@ -1,0 +1,432 @@
+<!-- @author: Shaun De Ponte, nawtybean3d@gmail.com
+
+----- The MIT License (MIT) ----- 
+Copyright (c) 2023, Shaun De Ponte
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Invoice Detail
+{% endblock title %}
+
+{% block style %}
+<style>
+  .table-sortable tbody tr {
+    cursor: move;
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+
+<div class="container_fluid" style="display:none" id="progress-bar">
+  <div class="loader12"></div>
+</div>
+
+<div class="container-fluid">
+
+{% include "invoice/modals/send-invoice.html" %}
+
+  <div class="row">
+    <div class="row mt-4">
+
+      <div class="col-lg-6 col-md-6 mt-4 mb-4">
+        <div class="card z-index-2  ">
+
+          <div class="card-body">
+            <label style="color:gray!important" for="Title">Invoice Number</label>
+            <div class="input-group input-group-outline mb-3">
+              {% for invoice in invoice %}
+                <p><b>{{invoice.number}}</b></p>
+              </div>
+
+            <label style="color:gray!important" for="Title">Client Name and Email</label>
+              <div class="input-group input-group-outline mb-3">
+                  <p><b>{{invoice.client__customer_name}}</b></p>  
+                  <p>&nbsp | &nbsp</p>
+                  <p><b> {{invoice.client__email_address}}</b></p>
+                </div>
+
+              <label style="color:gray!important" for="Title">Client Address</label>
+                <div class="input-group input-group-outline mb-3">
+
+                    <p><b>{{invoice.client__address_line}}</b></p>
+                  </div>
+              
+              <label style="color:gray!important" for="Title">PO Number</label>
+              <div class="input-group input-group-outline mb-3">
+                <input type="text" id="inputPoNumber" name="PoNumber" class="form-control" value="{{invoice.po_number}}">
+              </div>
+              
+              <label style="color:gray!important" for="Title">Discount (%)</label>
+              <div class="input-group input-group-outline mb-3">
+                <input type="number" id="discount_amount" name="discount_amount" class="form-control" min="0" max="100" onchange="calc()" value="{{invoice.discount}}">
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mt-4 mb-3">
+        <div class="card z-index-2 ">
+
+          <div class="card-body">
+            <label style="color:gray!important" for="Title">Invoice Date</label>
+            <div class="input-group input-group-outline mb-3">
+              <input type="date" id="inputInvoiceDate" name="InvoiceDate" class="form-control" value="{{invoice.invoice_date|date:'Y-m-d'}}" required>
+            </div>
+
+            <label style="color:gray!important" for="Title">Due Date</label>
+            <div class="input-group input-group-outline mb-3">
+                <input type="date" id="inputDueDate" name="DueDate" class="form-control" value="{{invoice.due_date|date:'Y-m-d'}}" required>
+              </div>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 mt-4 mb-3">
+      <div class="card z-index-2 ">
+
+        <div class="card-body">
+          <div class="row clearfix">
+            <div class="col-md-12 table-responsive">
+              <table class="table table-bordered table-hover table-sortable" id="tab_logic">
+                <thead>
+                  <tr style="background-color:#DBDBDB;">
+                    <th>Select</th>
+                    <th>ProductID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Line Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for inv in invoice_data %}
+                  <tr>
+                    <td><input type="checkbox" name="record"></td>
+                    <td>{{ inv.ProductID }}</td>
+                    <td>{{ inv.Title }}</td>
+                    <td>{{ inv.Description }}</td>
+                    <td><input type="number" name='qty[]' placeholder='Enter Qty' class="form-control qty" min="1" step="1"  pattern="^\d+(?:\.\d{1,2})?$" value="{{inv.Quantity}}" onchange="calc()"/></td>
+                    <td><input type="number" name='price[]' placeholder='Enter Price' class="form-control price" min="1" step="0.01"  pattern="^\d+(?:\.\d{1,2})?$" value="{{inv.Price}}" onchange="calc()"/></td>
+                    <td id='line-total'><input type="number" name='total[]' placeholder='0.00' class="form-control total" readonly/></td>
+                  </tr>
+                  {% endfor %}
+                  <tr id="select">
+                    <td colspan="4">
+                      <select class="form-control select2" data-placeholder="By Block">
+                        {% for product in product %}
+                        <option>
+                          {{product.id}}&nbsp;{{product.title}}&nbsp;{{product.description}}&nbsp;{{product.quantity}}&nbsp;{{product.price}}&nbsp;
+                        </option>
+                        {% endfor %}
+                        <option disabled class="add2tbl" selected><b>+ Add New Line Item</b></option>
+                      </select>
+                      
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+              <a id="run" class="btn btn-success float-right"><i class="fa fa-save" aria-hidden="true"></i> Save</a>
+
+              <a id="run1"  href="{% url 'invoice-preview' encrypt_id %}" class="btn btn-warning float-right" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Preview</a>
+
+
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#emailModal"  id="run2" >
+                  <i class="fa fa-envelope" aria-hidden="true"></i> 
+                  E-Mail Invoice to Client
+              </button>
+
+            <a id="delete-row" class="btn btn-primary float-right"><i class="fa fa-trash" aria-hidden="true"></i>  Delete Row</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mt-4">
+
+      <div class="col-lg-8 mt-4 mb-3">
+        <div class="card z-index-2 ">
+          <div class="card-body">
+            <nav>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Terms and Conditions</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Banking Details</button>
+              </div>
+            </nav>
+            {% for invoice in invoice %}
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                <div class="input-group input-group-outline mb-3">
+                  <input type="textarea" id="inputInvoiceNotes" name="InvoiceNotes" class="form-control" value="{{invoice.notes}}">
+                </div>
+              </div>
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mt-4 mb-3">
+        <div class="card z-index-2 ">
+
+          <div class="card-body">
+            <label style="color:gray!important" for="Title">Sub-total</label>
+            <div class="input-group input-group-outline mb-3">
+              <input type="text" id="sub_total" name="sub_total" class="form-control" disabled>
+            </div>
+
+            <label style="color:gray!important" for="Title">Invoice Total</label>
+            <div class="input-group input-group-outline mb-3">
+              <input type="text" id="total_amount" name="total_amount" class="form-control" disabled>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% endblock body %}
+
+  {% block javascript %}
+  <script>
+    let messages = new PopUpMessages();
+    var user_type = {{ user.user_type| safe }};
+    var show_hide_next = 1;
+    var csrftoken = getCookie('csrftoken');
+    window.onload = function () {
+      calc()
+    };
+
+
+    function cleanArray(actual) {
+      var newArray = new Array();
+      for (var i = 0; i < actual.length; i++) {
+        if (actual[i]) {
+          newArray.push(actual[i]);
+        }
+      }
+      return newArray;
+    }
+
+    // Sortable Code
+    var fixHelperModified = function (e, tr) {
+      var $originals = tr.children();
+      var $helper = tr.clone();
+
+      $helper.children().each(function (index) {
+        $(this).width($originals.eq(index).width())
+      });
+      return $helper;
+    };
+
+    $(".table-sortable tbody").sortable({
+      helper: fixHelperModified
+    }).disableSelection();
+
+    $(".table-sortable thead").disableSelection();
+
+    $('#run').click(function () {
+      prep_data()
+    });
+
+    
+    $('#run1').click(function () {
+      prep_data()
+    });
+
+    
+    $('#run2').click(function () {
+      prep_data()
+    });
+
+    $("select").change(function () {
+      // Select the text of the chosen option
+      var text = $(this).children(":selected").html();
+      
+      // Create a regex to split the string  
+      var regex = new RegExp("&nbsp;*");
+      
+      // Make an array out of the string
+      var array = cleanArray(text.split(regex));
+      
+      array[3] = '<input type="number" name="qty[]" placeholder="Enter Qty" class="form-control qty" min="1" step="1"  pattern="^\d+(?:\.\d{1,2})?$" value="' + array[3] + '" onchange="calc()"/>'
+      array[4] = '<input type="number" name="price[]" placeholder="Enter Price" class="form-control price" min="1" step="0.01"  pattern="^\d+(?:\.\d{1,2})?$" value="' + array[4] + '" onchange="calc()"/>'
+      array[5] = '<input type="number" name="total[]"" placeholder="0.00" class="form-control total" readonly/>'
+      
+      // Create a new <tr> to append to the tbody
+      var newRowHTML = "<tr><td><input type='checkbox' name='record'></td>";
+        $.each(array, function () {
+          newRowHTML += "<td>" + this + "</td>";
+        });
+        newRowHTML;
+
+      // Loop trough all tds and check if 
+      var alreadyInTable = false;
+      $.each($("tbody tr > td:first-child"), function () {
+        if (array[0] == $(this).html()) {
+          // If this ID is alreay in the table set the bool to true
+          alreadyInTable = true;
+        }
+      });
+      
+      // Wheter the ID is in the table or not, add it
+      if (alreadyInTable == false) {
+        $("tbody #select").before(newRowHTML);
+      }
+      calc()
+    });
+
+    // Find and remove selected table rows
+    $("#delete-row").click(function () {
+      $("table tbody").find('input[name="record"]').each(function () {
+        if ($(this).is(":checked")) {
+          $(this).parents("tr").remove();
+        }
+      });
+      calc()
+    });
+
+    function calc()
+      {
+        $('#tab_logic tr').each(function(i, element) {
+          var html = $(this).html();
+          
+            var qty = $(this).find('.qty').val();
+            var price = $(this).find('.price').val();
+            $(this).find('.total').val((qty*price).toFixed(2));
+            
+            calc_total();
+          });
+      }
+
+    function calc_total()
+    {
+      total=0;
+      $('.total').each(function() {
+            total += parseFloat($(this).val());
+        });
+      $('#sub_total').val(total.toFixed(2));
+      discount_sum=total/100*$('#discount_amount').val();
+      // $('#tax_amount').val(tax_sum.toFixed(2));
+      $('#total_amount').val((total - discount_sum).toFixed(2));
+      $('#invoice-amount').val((total - discount_sum).toFixed(2));
+    }
+
+    function prep_data()
+    {
+      var tbl = $('#tab_logic tbody tr').map(function (idxRow, ele) {
+        //
+        // start building the retVal object
+        //
+        var retVal = { id: ++idxRow };
+        //
+        // for each cell
+        //
+        var $td = $(ele).find('td').map(function (idxCell, ele) {
+          var input = $(ele).find(':input');
+          //
+          // if cell contains an input or select....
+          //
+          if (input.length == 1) {
+            var attr = $('#tab_logic thead tr th').eq(idxCell).text();
+            retVal[attr] = input.val();
+          }
+          else {
+            var attr = $('#tab_logic thead tr th').eq(idxCell).text();
+            retVal[attr] = $(ele).text();
+          }
+        });
+        return retVal;
+      }).get();
+
+      invoice_data = tbl
+      po_number = document.getElementById('inputPoNumber').value
+      discount_amount = document.getElementById('discount_amount').value
+      invoice_date = document.getElementById('inputInvoiceDate').value
+      due_date = document.getElementById('inputDueDate').value
+      notes = document.getElementById('inputInvoiceNotes').value
+
+      data = {
+        "invoice_data": invoice_data,
+        "po_number": po_number,
+        "discount_amount": discount_amount,
+        "invoice_date": invoice_date,
+        "due_date": due_date,
+        "notes": notes
+      }
+
+      $.ajax({
+                type: 'POST',
+                headers: {'X-CSRFToken': '{{csrf_token}}'},
+                url: 'invoice-detail-crud/',
+                data: JSON.stringify(data),
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    messages.savedSuccessfully("Successfully Saved!");
+                },
+                error: function (xhr) {
+                    messages.Error(xhr.statusText);
+                },
+            });
+
+    }
+
+    $('#post-data').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(document.getElementById("post-data"));
+            document.getElementById("btn").disabled = true;
+            document.getElementById("turn").style.display = "inline-block";
+            $.ajax({
+                type: 'POST',
+                headers: {'X-CSRFToken': '{{csrf_token}}'},
+                url: 'send-invoice/',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    messages.savedSuccessfully("Email Successfully Sent!");
+                    $("#emailModal").modal("hide");
+                    document.getElementById("btn").disabled = false;
+                    document.getElementById("turn").style.display = "none";
+                },
+                error: function (xhr) {
+                    messages.Error(xhr.statusText);
+                    document.getElementById("btn").disabled = false;
+                    document.getElementById("turn").style.display = "none";
+                },
+            });
+        });
+
+  </script>
+  {% endblock %}
