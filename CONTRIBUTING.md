@@ -30,7 +30,7 @@ As an open source project, BrightInvoice welcomes contributions of all forms. If
   verifiable examples or test cases for existing bug reports, updating documentation, or fixing minor bugs that have
   recently been reported.
 
-- **Code Contributions:** We are actively looking for Django/Python Coders to help develop our product roadmap and implement new features. Please see our product roadmap here
+- **Code Contributions:** We are actively looking for Django/Python Coders to help develop our product roadmap and implement new features. [Please see our product roadmap here](https://github.com/users/nawtybean/projects/1/views/1)
 - **Documentation Contributions:** Any additions/modifications to documentation is highly welcome
 - **Report a Bug:** 
 ### The best way to report a bug is to file an issue on GitHub. Please include:

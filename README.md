@@ -15,11 +15,43 @@
   />
 </picture>
 
+## Introduction
+
+BrightInvoice is a simple Open-Source invoice generator solution for small businesses. Our user-friendly platform streamlines the invoicing process, saving you time and money.
+
+BrightInvoice is designed for small businesses and freelancers, so it can be used in a wide range of industries, including but not limited to:
+
+- Solar Installers
+- Consulting
+- Photography
+- Graphic Design
+- Video Editing
+- Support Services
+- Plumbers
+- Electricians
+
+Visit [BrightInvoice.co.za](https://brightinvoice.co.za/) for a live version of this app.
+
+
+## Techstack
+
+- Django 4.1.2
+- Bootstrap 5
+- HTML
+- Javascript
+- CSS
+
+The live version is hosted on a VM by [Absolute Hosting](https://absolutehosting.co.za/) running Ubuntu 22.04, with all DNS records hosted on CloudFlare ensuring end to end SSL encryption.
+
+Payment integration for recurring billing is handled through [PayFast](https://payfast.io/)
+
 
 ## Installation and Configuration
 
 Let’s get started - Local development !
 ====================
+
+Before we get started, it is important to note that this app is a Multi-Tenant app using ID's to seperate the tenants. The app uses subdomains i.e. yourcompany.brightinvoice.co.za to identify different tenants.
 
 1\. Fork the Repo and Create Virtual Environment
 =============================================
