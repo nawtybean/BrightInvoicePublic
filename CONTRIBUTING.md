@@ -49,6 +49,11 @@ We have a Patreon account setup. Link [HERE](https://www.patreon.com/BrightInvoi
 ## General considerations
 
 1. Please take a look at our code of conduct Link [HERE](https://github.com/nawtybean/BrightInvoicePublic/blob/main/CODE_OF_CONDUCT.md). 
+   
+
+## Join our Slack Community
+
+Join our Slack Community [Here](https://www.linkedin.com/safety/go?url=https%3A%2F%2Fjoin.slack.com%2Ft%2Fslack-f469067%2Fshared_invite%2Fzt-29h7aagap-sBDfdVNdbY02jKBLuDIJHw&trk=flagship-messaging-web&messageThreadUrn=urn%3Ali%3AmessagingThread%3A2-ZTNmY2E4MGQtYTFlYS00YjljLWI1MDUtZDNkZjdhMjFlZWY4XzAxMw%3D%3D&lipi=urn%3Ali%3Apage%3Ad_flagship3_messaging_conversation_detail%3B5%2Fh2B3f0TUWr7TigVTTVkg%3D%3D)
 
 ## Getting started
 
