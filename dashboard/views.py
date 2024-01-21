@@ -31,7 +31,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from invoice.models import Invoice
 from system_management.models import (
-    TenantUser
+    Tenant, TenantUser, Currency
 )
 from system_management.utilities import (
     get_tenant
@@ -39,6 +39,7 @@ from system_management.utilities import (
 import pandas as pd
 import numpy as np
 from datetime import datetime
+from django.db.models import Q
 
 
 # Cache Control
@@ -85,6 +86,14 @@ class Dashboard(LoginRequiredMixin, View):
         # Query for tenant user and filter based on user ID
         tenant_user_qs = TenantUser.objects.filter(tenant=tenant)
         tenant_user_qs = tenant_user_qs.filter(tenant_name=user_id)
+
+        # Get Currency Details
+        tenant_vals = list(Tenant.objects.filter(Q(subdomain=tenant)).values())
+        currency = tenant_vals[0]['currency_id']
+        currency = list(Currency.objects.filter(pk=currency).values())
+        currency = currency[0]['symbol']
+
+        print(currency)
 
         if tenant_user_qs:
             try:
@@ -170,7 +179,8 @@ class Dashboard(LoginRequiredMixin, View):
                         "graph_two_dict": graph_two_dict,
                         "graph_three_dict": graph_three_dict,
                         "graph_four_dict": graph_four_dict,
-                        "cards": cards
+                        "cards": cards,
+                        "currency": currency
                     }
             except:
                 # If there is no data or an error occurs, default to 0 to avoid errors
@@ -185,7 +195,8 @@ class Dashboard(LoginRequiredMixin, View):
                         "graph_two_dict": 0,
                         "graph_three_dict": 0,
                         "graph_four_dict": 0,
-                        "cards": 0
+                        "cards": 0,
+                        "currency": currency
                     }
                 
             # Convert data to JSON format and return as an HTTP response

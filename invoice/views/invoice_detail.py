@@ -37,7 +37,7 @@ from invoice.models import (
     Invoice,  Product
 )
 from system_management.models import (
-    TenantUser
+    Tenant, TenantUser, Currency
 )
 from system_management.url_encryption import encrypt
 from system_management.emails import send_invoice
@@ -89,7 +89,6 @@ def invoice_detail(request):
         product = list(Product.objects.filter(tenant=tenant) \
                                       .values('id', 'title', 'description',
                                               'quantity', 'price'))
-        
         email_url = http_https + str(tenant) + ".brightinvoice.co.za/invoice/invoice-preview/" + encrypt_id
 
         request.session['invoice_number'] = invoice[0]['number']
@@ -206,6 +205,12 @@ class SendInvoice(LoginRequiredMixin, View):
         tenant_user_qs = TenantUser.objects.filter(tenant=tenant)
         tenant_user_qs = tenant_user_qs.filter(tenant_name=user_id)
 
+        # Get Currency Details
+        tenant_vals = list(Tenant.objects.filter(Q(subdomain=tenant)).values())
+        currency = tenant_vals[0]['currency_id']
+        currency = list(Currency.objects.filter(pk=currency).values())
+        currency = currency[0]['symbol']
+
         if tenant_user_qs:
             if request.method == 'POST':
 
@@ -220,13 +225,13 @@ class SendInvoice(LoginRequiredMixin, View):
 
                 email_url = request.session['email_url']
 
-
                 context = {
                     "email_select": email_select,
                     "send_copy": send_copy,
                     "email_message": email_message,
                     "email_url": email_url,
-                    "invoice_amount": invoice_amount
+                    "invoice_amount": invoice_amount,
+                    "currency": currency
                 }
                 send_invoice(request, context)
 

@@ -14,7 +14,7 @@
 
             <hr style="color:#80be83; width: 80%;">
             <br>
-            <p style="font-size: 30px; color:#80be83">Invoice Amount: R{{invoice_amount}}</p>
+            <p style="font-size: 30px; color:#80be83">Invoice Amount: {{currency}}{{invoice_amount}}</p>
             <br>
             <p style="font-size: 16px;">Click the button below to view your invoice.</p>
             <br><br>

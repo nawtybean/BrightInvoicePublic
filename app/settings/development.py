@@ -26,7 +26,7 @@ THE SOFTWARE.
 from .base import *
 
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [".brightinvoice.co.za"]
 CSRF_TRUSTED_ORIGINS = ['https://*.brightinvoice.co.za']

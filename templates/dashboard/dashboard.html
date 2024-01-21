@@ -219,17 +219,19 @@ THE SOFTWARE. -->
               type: 'GET',
               url: 'dashboard-crud',
               success: function (data) {
-                  console.log(data)
                   document.getElementById("progress-bar").style.display = "none";
                   drawChart(data.graph_one_dict, "bar", "#chart1")
                   drawChart(data.graph_two_dict, "line", "#chart2")
                   drawChart(data.graph_three_dict, "bar", "#chart3")
                   drawChart(data.graph_four_dict, "bar", "#chart4")
 
-                  document.getElementById("total_invoice").innerHTML = 'R' + data.cards.sum_total_invoices.toLocaleString("en-US");
+                  // Load the currency for this tenant
+                  currency = data.currency
+
+                  document.getElementById("total_invoice").innerHTML = currency + data.cards.sum_total_invoices.toLocaleString("en-US");
                   document.getElementById("days_overdue").innerHTML = data.cards.count_over_due_invoices;
-                  document.getElementById("this_month_invoice").innerHTML = 'R' + data.cards.invoice_this_month.toLocaleString("en-US");
-                  document.getElementById("total_payments").innerHTML = 'R' + data.cards.sum_paid_invoices.toLocaleString("en-US");
+                  document.getElementById("this_month_invoice").innerHTML = currency + data.cards.invoice_this_month.toLocaleString("en-US");
+                  document.getElementById("total_payments").innerHTML = currency + data.cards.sum_paid_invoices.toLocaleString("en-US");
               },
               error: function (xhr, ajaxOptions, thrownError) {
                   messages.Error(xhr.statusText);

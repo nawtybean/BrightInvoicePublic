@@ -26,14 +26,14 @@ THE SOFTWARE.
 from .base import *
 
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = [".brightinvoice.co.za"]
-CSRF_TRUSTED_ORIGINS = ['https://*.brightinvoice.co.za']
+ALLOWED_HOSTS = ["*"]
+# CSRF_TRUSTED_ORIGINS = ['https://*.brightinvoice.co.za']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -42,12 +42,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# STORAGES = {
+#     # ...
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }
 
 DATABASES = {
     'default': {
@@ -72,11 +72,9 @@ EMAIL_FROM_USER = os.environ['EMAIL_HOST_PASSWORD']
 
 STATIC_URL = "/static/"
 
-# enable for prod and disable for local dev
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-# enable for local development and disable for prod
-# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = ''
+STATIC_URL = '/static/' 
+STATICFILES_DIRS = ('static',) 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
