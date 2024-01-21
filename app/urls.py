@@ -31,7 +31,7 @@ from django.conf import settings
 # from system_management.views import home
 
 urlpatterns = [
-    path('artentreywrypertnakyl/', admin.site.urls),
+    path('artentreywrypertnakylec/', admin.site.urls),
 
     path('system_management/', include('system_management.urls')),
     path('', RedirectView.as_view(url='system_management/', permanent=True)),
