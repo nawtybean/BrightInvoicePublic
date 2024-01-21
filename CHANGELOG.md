@@ -33,3 +33,9 @@ All enhancements and patches to BrightInvoice will be documented in this file.
 
 -  Initial commit of the BrightInvoice Project to GitHub
 -  Added MIT Liceses for Open Source distribution and contribution
+
+
+## 2024.01.19
+
+- Fixed Issue 18: The dashboard uses rands whilst her default currency is dollars
+- Fixed Issue 19: The email defaults to rands whilst her chosen currency is in dollars
