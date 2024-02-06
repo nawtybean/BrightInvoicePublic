@@ -18,7 +18,15 @@ jobs:
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DB_NAME: ${{ secrets.DB_NAME }}
-      
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      EMAIL_HOST_NAME: ${{ secrets.EMAIL_HOST_NAME }}
+      EMAIL_HOST_PORT: ${{ secrets.EMAIL_HOST_PORT }}
+      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
