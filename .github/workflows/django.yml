@@ -17,6 +17,7 @@ jobs:
 
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DB_NAME: ${{ secrets.DB_NAME }}
       
     steps:
     - uses: actions/checkout@v3
