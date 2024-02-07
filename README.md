@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/license/mit/)
 [![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10-blue)](https://www.python.org/)
-[![Django CI](https://github.com/luisdza/BrightInvoicePublic/actions/workflows/django.yml/badge.svg)](https://github.com/luisdza/BrightInvoicePublic/actions/workflows/django.yml)
+[![Django CI](https://github.com/nawtybean/BrightInvoicePublic/actions/workflows/django.yml/badge.svg)](https://github.com/nawtybean/BrightInvoicePublic/actions/workflows/django.yml)
 
 <picture width="500">
   <source
