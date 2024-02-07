@@ -22,14 +22,18 @@ jobs:
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DB_HOST: ${{ secrets.DB_HOST }}
       DB_PORT: ${{ secrets.DB_PORT }}
-      EMAIL_HOST_NAME: ${{ secrets.EMAIL_HOST_NAME }}
-      EMAIL_HOST_PORT: ${{ secrets.EMAIL_HOST_PORT }}
-      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
-      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+      #WEBSITE_HOSTNAME : ${{ secrets.WEBSITE_HOSTNAME }}
+
+      SANDBOX_MODE: ${{ secrets.SANDBOX_MODE }}
       MERCHANT_ID: ${{ secrets.MERCHANT_ID }}
       MERCHANT_KEY: ${{ secrets.MERCHANT_KEY }}
       PASS_PHRASE: ${{ secrets.PASS_PHRASE }}
       CART_TOTAL: ${{ secrets.CART_TOTAL }}
+
+      EMAIL_HOST_NAME: ${{ secrets.EMAIL_HOST_NAME }}
+      EMAIL_HOST_PORT: ${{ secrets.EMAIL_HOST_PORT }}
+      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
     steps:
     - uses: actions/checkout@v3
