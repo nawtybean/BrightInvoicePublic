@@ -26,6 +26,10 @@ jobs:
       EMAIL_HOST_PORT: ${{ secrets.EMAIL_HOST_PORT }}
       EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
       EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+      MERCHANT_ID: ${{ secrets.MERCHANT_ID }}
+      MERCHANT_KEY: ${{ secrets.MERCHANT_KEY }}
+      PASS_PHRASE: ${{ secrets.PASS_PHRASE }}
+      CART_TOTAL: ${{ secrets.CART_TOTAL }}
 
     steps:
     - uses: actions/checkout@v3
