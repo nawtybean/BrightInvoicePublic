@@ -31,6 +31,7 @@ from system_management.models import (
 
 from datetime import datetime
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 
 class BankingDetails(TenantAwareModel):
@@ -109,9 +110,10 @@ class Invoice(TenantAwareModel):
     po_number = models.TextField(null=True, blank=True)
     discount = models.IntegerField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    invoice_data = models.JSONField(default={})
-    invoice_date = models.DateTimeField(default=datetime.now, blank=True)
+    invoice_data = models.JSONField(default=dict)
+    invoice_date = models.DateTimeField(default=timezone.now, blank=True)
     has_viewed = models.BooleanField(default=False)
+    view_dates = models.JSONField(default=dict)
 
     # related fields
     client = models.ForeignKey(Customer, blank=True, null=True, on_delete=models.SET_NULL)
@@ -121,8 +123,8 @@ class Invoice(TenantAwareModel):
 
     # utility fields
     tenant_user = models.ForeignKey(get_user_model(), on_delete=models.RESTRICT)
-    created  = models.DateTimeField(editable=False, default=datetime.now)
-    modified = models.DateTimeField(default=datetime.now)
+    created  = models.DateTimeField(editable=False, default=timezone.now)
+    modified = models.DateTimeField(default=timezone.now)
 
 
     def __str__(self):
@@ -131,3 +133,9 @@ class Invoice(TenantAwareModel):
 
     class Meta:
         verbose_name_plural = 'Invoice'
+
+    #This overrides the model save function so that we can  modify the self.modified field on save
+
+    def save(self, *args, **kwargs):
+        self.modified = timezone.now()
+        super(Invoice,self).save(*args, **kwargs)
