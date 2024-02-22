@@ -51,7 +51,7 @@ User = get_user_model()
 
 @login_required(login_url='/system_management/')
 def invoice(request):
-    context = {}
+    context = {'title':'Invoice'}
     return render(request, "invoice/invoice.html", context)
 
 
