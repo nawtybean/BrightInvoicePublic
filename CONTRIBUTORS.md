@@ -26,3 +26,5 @@ We would like to thank the following members for their contributions. Without yo
 - Shaun De Ponte - [nawtybean](https://github.com/nawtybean)
 - Ntokozo Luthuli - [ntoxlut](https://github.com/ntoxlut/ntoxlut)
 - Simbarashe Mhlanga - [SimbarasheJehol](https://github.com/SimbarasheJehol)
+- Luis Da Souza - [luisdza](https://github.com/luisdza)
+- Ernest Mamba - [ErnestFistozz](https://github.com/ErnestFistozz)
