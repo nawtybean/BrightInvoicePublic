@@ -45,7 +45,7 @@ User = get_user_model()
 @login_required(login_url='/system_management/')
 def products(request):
     # Renders the 'products.html' template with an empty context
-    context = {}
+    context = {'title':'Products'}
     return render(request, "products/products.html", context)
 
 
