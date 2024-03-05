@@ -8,8 +8,8 @@
             <br><br>
             <img src="https://signup.brightinvoice.co.za/static/assets/img/emaillogo.png">
             <br><br>
-            <p style="font-size: 22px;">Hello {{email_select}},  <a style="color: #80be83;"></a></p>
-            <p style="font-size: 15px;">Please see message from your service provider: <a style="color: #80be83; text-decoration: none;">{{user.email}}</a></p>
+            <p style="font-size: 22px;">Hi {{customer_name}},  <a style="color: #80be83;"></a></p>
+            <p style="font-size: 15px;">Please see message from your service provider: <a style="color: #80be83; text-decoration: none;">{{tenant_name}}</a></p>
             <p style="font-size: 15px;">{{email_message}}</p>
 
             <hr style="color:#80be83; width: 80%;">

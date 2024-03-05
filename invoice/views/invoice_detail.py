@@ -34,7 +34,7 @@ from system_management.utilities import (
     is_valid_date, get_tenant, http_https
 )
 from invoice.models import (
-    Invoice,  Product
+    Invoice,  Product, Customer
 )
 from system_management.models import (
     Tenant, TenantUser, Currency
@@ -198,7 +198,10 @@ class SendInvoice(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         """
         Handle POST request for sending invoices via email.
+
+
         """
+
         
         tenant = get_tenant(request)
         user_id = request.user.id
@@ -211,6 +214,8 @@ class SendInvoice(LoginRequiredMixin, View):
         currency = list(Currency.objects.filter(pk=currency).values())
         currency = currency[0]['symbol']
 
+        # Note Force Tenant to denote currency on creation
+       
         if tenant_user_qs:
             if request.method == 'POST':
 
@@ -225,8 +230,13 @@ class SendInvoice(LoginRequiredMixin, View):
 
                 email_url = request.session['email_url']
 
+                customer_name = Customer.objects.filter(email_address=email_select).first().customer_name
+                tenant_name = tenant_vals[0].get('name')
+
                 context = {
                     "email_select": email_select,
+                    "customer_name" : customer_name,
+                    "tenant_name" : tenant_name,
                     "send_copy": send_copy,
                     "email_message": email_message,
                     "email_url": email_url,
