@@ -36,6 +36,7 @@ from system_management.utilities import (
 from system_management.url_encryption import decrypt
 from django.db.models import Q
 from PIL import Image
+from datetime import datetime
 
 
 def invoice_preview(request, pk):
@@ -72,6 +73,19 @@ def invoice_preview(request, pk):
             # Update invoice status if viewed from email
             if frm_app == False:
                 invoice = Invoice.objects.get(Q(tenant=tenant) and Q(number=pk))
+
+                # When an Invoice Is viewed from the email - this loads the date in json field in the db 
+
+                # TODO : Add Behavior when the invoice is viewed multiple times
+
+                current_view_date  = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+                if isinstance(invoice.view_dates,dict):
+                    invoice.view_dates = [current_view_date]
+                elif isinstance(invoice.view_dates,list):
+                    previous_dates = invoice.view_dates
+                    invoice.view_dates = previous_dates.append(current_view_date)
+
                 invoice.has_viewed = True
                 invoice.save()
 
