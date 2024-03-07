@@ -23,17 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
 
+
 from .base import *
 
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
-# CSRF_TRUSTED_ORIGINS = ['https://*.brightinvoice.co.za']
+ALLOWED_HOSTS = [".brightinvoice.co.za"]
+CSRF_TRUSTED_ORIGINS = ['https://*.brightinvoice.co.za']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -42,12 +43,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# STORAGES = {
-#     # ...
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#     },
-# }
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 DATABASES = {
     'default': {
@@ -63,8 +64,8 @@ DATABASES = {
 
 # Email Stuff
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = "smtp-relay.sendinblue.com"
-EMAIL_PORT = 587
+EMAIL_HOST = os.environ['EMAIL_HOST_USER']
+EMAIL_PORT = os.environ['EMAIL_HOST_PORT']
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = True
@@ -72,12 +73,11 @@ EMAIL_FROM_USER = os.environ['EMAIL_HOST_PASSWORD']
 
 STATIC_URL = "/static/"
 
-STATIC_ROOT = ''
-STATIC_URL = '/static/' 
-STATICFILES_DIRS = ('static',) 
+# enable for prod and disable for local dev
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# enable for local development and disable for prod
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# enable for local development and disable for prod
-# STATICFILES = os.path.join(BASE_DIR, "static")
