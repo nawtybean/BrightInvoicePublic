@@ -51,7 +51,7 @@ def clients(request):
 
     Retrieves client data and renders the clients page template.
     """
-    context = {}
+    context = {'title':'Clients'}
     return render(request, "clients/clients.html", context)
 
 
