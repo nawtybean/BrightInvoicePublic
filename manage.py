@@ -8,10 +8,10 @@ def main():
     """Run administrative tasks."""
     load_dotenv('./.env')
     # Only for Local Development - Load environment variables from the .env file
-    if not 'WEBSITE_HOSTNAME' in os.environ:
+    if 'DEVELOPMENT' in os.environ:
         print("Development Environment Detected! Loading environment variables from .env file")
 
-    settings_module = 'app.settings.production' if 'WEBSITE_HOSTNAME' in os.environ else 'app.settings.development'
+    settings_module = 'app.settings.development' if 'DEVELOPMENT' in os.environ else 'app.settings.production'
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
     try:
         from django.core.management import execute_from_command_line

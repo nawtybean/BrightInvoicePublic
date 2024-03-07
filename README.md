@@ -124,7 +124,17 @@ Create a .env file in the root directory of BrightInvoice, and set the following
 
 ````python
 
-# Dev/Prod
+# Dev
+# Database
+SECRET_KEY='<Your Django Secret Key Goes Here>'
+DB_NAME_DEV='<Your Database Name Goes Here>'
+DB_USER_DEV='<Your Database User Goes Here>'
+DB_PASSWORD_DEV='<Your Database Password Goes sHere>'
+DB_HOST_DEV='<Your Database Host Goes Here>'
+DB_PORT_DEV='<Your Database Port Goes Here>'
+
+
+# Prod
 # Database
 SECRET_KEY='<Your Django Secret Key Goes Here>'
 DB_NAME='<Your Database Name Goes Here>'
@@ -132,7 +142,7 @@ DB_USER='<Your Database User Goes Here>'
 DB_PASSWORD='<Your Database Password Goes sHere>'
 DB_HOST='<Your Database Host Goes Here>'
 DB_PORT='<Your Database Port Goes Here>'
-# WEBSITE_HOSTNAME='*.<Your Domain Goes Here>' # Comment out for dev, enable for prod
+
 
 # Payfast Details
 SANDBOX_MODE=True/False
@@ -146,6 +156,9 @@ DEFAULT_EMAIL="<Your Email Goes Here>"
 EMAIL_HOST_USER="<Your Email Goes Here>"
 EMAIL_HOST_PASSWORD="<Your Password Goes Here>"
 EMAIL_FROM_USER="<Your Email Goes Here>"
+
+# Environment
+DEVELOPMENT=True/False
 ````
 
 

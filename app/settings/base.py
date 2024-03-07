@@ -107,8 +107,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 DATE_FORMAT = "Y-m-d"
-# SECURE_CROSS_ORIGIN_OPENER_POLICY = None
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

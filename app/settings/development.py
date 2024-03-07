@@ -26,14 +26,12 @@ THE SOFTWARE.
 from .base import *
 
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [".brightinvoice.co.za"]
-CSRF_TRUSTED_ORIGINS = ['https://*.brightinvoice.co.za']
+ALLOWED_HOSTS = ["*"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -42,28 +40,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['DB_NAME'],
-        'USER': os.environ['DB_USER'],
-        'PASSWORD': os.environ['DB_PASSWORD'],
-        'HOST': os.environ['DB_HOST'],
-        'PORT': os.environ['DB_PORT'],
+        'NAME': os.environ['DB_NAME_DEV'],
+        'USER': os.environ['DB_USER_DEV'],
+        'PASSWORD': os.environ['DB_PASSWORD_DEV'],
+        'HOST': os.environ['DB_HOST_DEV'],
+        'PORT': os.environ['DB_PORT_DEV'],
     }
 
 }
 
 # Email Stuff
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ['EMAIL_HOST_NAME']
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_HOST = "smtp-relay.sendinblue.com"
 EMAIL_PORT = os.environ['EMAIL_HOST_PORT']
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
@@ -72,14 +63,12 @@ EMAIL_FROM_USER = os.environ['EMAIL_HOST_PASSWORD']
 
 STATIC_URL = "/static/"
 
-# enable for prod and disable for local dev
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-# enable for local development and disable for prod
-# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = ''
+STATIC_URL = '/static/' 
+STATICFILES_DIRS = ('static',) 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # enable for local development and disable for prod
-# STATICFILES = os.path.join(BASE_DIR, "static")
+STATICFILES = os.path.join(BASE_DIR, "static")
