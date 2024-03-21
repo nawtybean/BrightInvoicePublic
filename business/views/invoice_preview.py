@@ -24,7 +24,7 @@ THE SOFTWARE.
 '''
 
 from django.shortcuts import render
-from invoice.models import (
+from business.models import (
     Invoice
 )
 from system_management.models import (
@@ -141,10 +141,10 @@ def invoice_preview(request, pk):
                         }
             
             # Render the invoice preview template with context data
-            return render(request, "invoice/invoice-preview.html", context)
+            return render(request, "business/invoice-preview.html", context)
         else:
             # If tenant doesn't match, raise an exception
             raise Exception()
     except:
         # Render 'invoice-not-found' template for any exception
-        return render(request, "invoice/invoice-not-found.html")
+        return render(request, "business/invoice-not-found.html")

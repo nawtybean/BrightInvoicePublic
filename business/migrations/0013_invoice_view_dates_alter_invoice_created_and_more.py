@@ -7,7 +7,7 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("invoice", "0012_invoice_has_viewed"),
+        ("business", "0012_invoice_has_viewed"),
     ]
 
     operations = [

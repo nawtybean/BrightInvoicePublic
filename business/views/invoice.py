@@ -32,7 +32,7 @@ from django.db.models import Q
 from system_management.utilities import (
     select_data, table_data, invoice_number_gen
 )
-from invoice.models import (
+from business.models import (
     Invoice, Customer
 )
 from system_management.models import (
@@ -50,9 +50,9 @@ User = get_user_model()
 
 
 @login_required(login_url='/system_management/')
-def invoice(request):
-    context = {'title':'Invoice'}
-    return render(request, "invoice/invoice.html", context)
+def business(request):
+    context = {'title':'Business'}
+    return render(request, "business/business.html", context)
 
 
 decorators= (never_cache)

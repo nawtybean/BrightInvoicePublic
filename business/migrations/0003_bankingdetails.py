@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('system_management', '0004_terms_status_provinces_currency'),
-        ('invoice', '0002_alter_invoice_options_alter_invoicedetail_options_and_more'),
+        ('business', '0002_alter_invoice_options_alter_invoicedetail_options_and_more'),
     ]
 
     operations = [

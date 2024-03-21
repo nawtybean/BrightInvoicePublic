@@ -24,7 +24,7 @@ THE SOFTWARE.
 '''
 
 from django.contrib import admin
-from invoice.models import (
+from business.models import (
         Customer, Product, Invoice,
         BankingDetails
 )

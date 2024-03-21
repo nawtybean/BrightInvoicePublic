@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'system_management',
     'dashboard',
-    'invoice',
+    'business',
     'administration',
     'products',
     'clients',

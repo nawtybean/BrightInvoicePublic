@@ -89,7 +89,7 @@ class Product(TenantAwareModel):
     # related fields
     currency =  models.ForeignKey(Currency, on_delete=models.RESTRICT, null=True)
 
-    #Utility fields
+    # Utility fields
     tenant_user = models.ForeignKey(get_user_model(), on_delete=models.RESTRICT)
     created = models.DateTimeField(editable=False, default=datetime.now)
     modified = models.DateTimeField(default=datetime.now)
@@ -104,16 +104,24 @@ class Product(TenantAwareModel):
 
 class Invoice(TenantAwareModel):
 
+    BUSINESS_TYPE_CHOICES = (
+        (1, 'quote'),
+        (2, 'invoice'),
+    )
+
     title = models.CharField(null=True, blank=True, max_length=100)
     number = models.CharField(null=True, blank=True, max_length=100)
+    quote_number = models.CharField(null=True, blank=True, max_length=100)
     due_date = models.DateField(null=True, blank=True)
     po_number = models.TextField(null=True, blank=True)
     discount = models.IntegerField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     invoice_data = models.JSONField(default=dict)
+    quote_date = models.DateTimeField(default=timezone.now, blank=True)
     invoice_date = models.DateTimeField(default=timezone.now, blank=True)
     has_viewed = models.BooleanField(default=False)
     view_dates = models.JSONField(default=dict)
+    business_type = models.PositiveSmallIntegerField(choices=BUSINESS_TYPE_CHOICES)
 
     # related fields
     client = models.ForeignKey(Customer, blank=True, null=True, on_delete=models.SET_NULL)
@@ -134,7 +142,7 @@ class Invoice(TenantAwareModel):
     class Meta:
         verbose_name_plural = 'Invoice'
 
-    #This overrides the model save function so that we can  modify the self.modified field on save
+    # This overrides the model save function so that we can  modify the self.modified field on save
 
     def save(self, *args, **kwargs):
         self.modified = timezone.now()

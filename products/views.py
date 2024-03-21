@@ -32,7 +32,7 @@ from system_management.utilities import table_data
 from system_management.models import TenantUser
 from django.contrib.auth import get_user_model
 from system_management.utilities import get_tenant
-from invoice.models import Product
+from business.models import Product
 
 # Cache Control
 from django.utils.decorators import method_decorator

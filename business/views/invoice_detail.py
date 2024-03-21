@@ -33,7 +33,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from system_management.utilities import (
     is_valid_date, get_tenant, http_https
 )
-from invoice.models import (
+from business.models import (
     Invoice,  Product, Customer
 )
 from system_management.models import (
@@ -89,7 +89,7 @@ def invoice_detail(request):
         product = list(Product.objects.filter(tenant=tenant) \
                                       .values('id', 'title', 'description',
                                               'quantity', 'price'))
-        email_url = http_https + str(tenant) + ".brightinvoice.co.za/invoice/invoice-preview/" + encrypt_id
+        email_url = http_https + str(tenant) + ".brightinvoice.co.za/business/invoice-preview/" + encrypt_id
 
         request.session['invoice_number'] = invoice[0]['number']
         request.session['email_url'] = email_url
@@ -100,8 +100,8 @@ def invoice_detail(request):
                         "encrypt_id": encrypt_id,
                         "invoice_data": invoice_data
                     }
-        return render(request, "invoice/invoice-detail.html", context)
-    return render(request, "invoice/invoice-detail.html")
+        return render(request, "business/invoice-detail.html", context)
+    return render(request, "business/invoice-detail.html")
 
 
 @login_required(login_url='/system_management/')

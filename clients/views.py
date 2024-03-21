@@ -35,7 +35,7 @@ from system_management.utilities import (
 )
 from django.contrib.auth import get_user_model
 from system_management.utilities import get_tenant
-from invoice.models import Customer, Provinces
+from business.models import Customer, Provinces
 
 # Cache Control
 from django.utils.decorators import method_decorator
