@@ -1,7 +1,7 @@
 '''
 @author: Shaun De Ponte, nawtybean3d@gmail.com
 
------ The MIT License (MIT) ----- 
+----- The MIT License (MIT) -----
 Copyright (c) 2023, Shaun De Ponte
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -64,7 +64,7 @@ DATABASES = {
 
 # Email Stuff
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST = os.environ['EMAIL_HOST']
 EMAIL_PORT = os.environ['EMAIL_HOST_PORT']
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
